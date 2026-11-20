@@ -119,6 +119,18 @@ install_packages() {
   esac
 }
 
+# Downloaded package files and repository indexes stay in the container's
+# writable layer, and their page cache counts against the service's memory
+# (on a 1 GB plan that is a large share). They are not needed after install.
+clean_cache() {
+  case "$1" in
+    apt) apt-get clean && rm -rf /var/lib/apt/lists/* ;;
+    apk) rm -rf /var/cache/apk/* ;;
+    dnf) dnf clean all ;;
+    pacman) rm -rf /var/cache/pacman/pkg/* /var/lib/pacman/sync/* ;;
+  esac
+}
+
 main() {
   local manager requested variable
   local -a pkgs=()
@@ -133,6 +145,7 @@ main() {
   log "Reinstalling ${#pkgs[@]} package(s) with ${manager}: ${pkgs[*]} (log: ${LOG_FILE})"
   if install_packages "$manager" "${pkgs[@]}" > "$LOG_FILE" 2>&1; then
     log "Packages restored."
+    clean_cache "$manager" >> "$LOG_FILE" 2>&1 || true
   else
     log "WARNING: package restore failed. See ${LOG_FILE} (tail below)."
     tail -n 15 "$LOG_FILE" >&2 || true
