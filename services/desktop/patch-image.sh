@@ -110,17 +110,24 @@ patch_nginx_conf() {
 # server is pointed at a throwaway certificate, since /config/ssl is created
 # at runtime.
 test_rendered_config() {
-  local dir
+  local dir test_conf
   dir="$(mktemp -d)"
   require_count "$NGINX_CONF" "$SITE_INCLUDE" 1
   sed -e 's/CWS/8082/g' -e 's|SUBFOLDER|/|g' -e "s|/config/ssl/cert|${dir}/cert|g" \
     "$SITE_TEMPLATE" > "${dir}/site.conf"
+  # The test config sits next to nginx.conf, because nginx resolves relative
+  # includes (Arch: "include mime.types;") against the config file's directory.
+  test_conf="$(dirname "$NGINX_CONF")/.railway-build-test.conf"
   sed -E "s#${SITE_INCLUDE}#\1include ${dir}/site.conf;\3#" \
-    "$NGINX_CONF" > "${dir}/nginx.conf"
+    "$NGINX_CONF" > "$test_conf"
   openssl req -new -x509 -days 1 -nodes -subj "/CN=build-test" \
     -out "${dir}/cert.pem" -keyout "${dir}/cert.key" > /dev/null 2>&1 \
     || die "could not create the test certificate"
-  nginx -t -q -c "${dir}/nginx.conf" || die "nginx rejected the patched configuration"
+  if ! nginx -t -q -c "$test_conf"; then
+    rm -f "$test_conf"
+    die "nginx rejected the patched configuration"
+  fi
+  rm -f "$test_conf"
   rm -rf "$dir"
 }
 
