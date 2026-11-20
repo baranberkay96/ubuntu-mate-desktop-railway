@@ -1,5 +1,7 @@
 # Deploy and Host Ubuntu MATE 26.04 Desktop with Railway
 
+[![Deploy on Railway](https://railway.com/button.svg)](https://railway.com/deploy/ubuntu-mate-2604-desktop-in-your-browser?referralCode=20H68q)
+
 An Ubuntu MATE 26.04 LTS desktop that you open in a browser tab: the classic two-panel MATE layout with the Brisk menu, Caja, MATE Terminal, Pluma, Atril and Chromium. It is light, quick and familiar to anyone who used GNOME 2. A generated password protects it, and your home directory (files, settings, browser profile) lives on a persistent volume.
 
 ## About Hosting Ubuntu MATE 26.04 Desktop
