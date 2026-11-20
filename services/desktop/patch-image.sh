@@ -24,11 +24,16 @@ readonly SRC_DIR="/tmp/railway-desktop"
 readonly SITE_TEMPLATE="/defaults/default.conf"
 readonly NGINX_CONF="/etc/nginx/nginx.conf"
 readonly NGINX_WORKERS=2
-# The line of nginx.conf that loads the site: sites-enabled/* on Debian and
-# Ubuntu, http.d/*.conf on Alpine, conf.d/*.conf on Fedora, and conf.d/* on
-# Arch, where the base image appends it together with the closing brace of
-# the http block.
-readonly SITE_INCLUDE='^([[:space:]]*)include /etc/nginx/(sites-enabled/\*|http\.d/\*\.conf|conf\.d/\*\.conf|conf\.d/\*);(\}?)$'
+# The line of nginx.conf that loads the site, by distribution: sites-enabled/*
+# on Debian and Ubuntu (whose nginx.conf also includes conf.d/*.conf),
+# http.d/*.conf on Alpine, conf.d/*.conf on Fedora, and conf.d/* on Arch,
+# where the base image appends it together with the closing brace of the
+# http block. site_include picks the first of these that nginx.conf has.
+readonly SITE_INCLUDES=(
+  '^([[:space:]]*)include /etc/nginx/(sites-enabled/\*);(\}?)$'
+  '^([[:space:]]*)include /etc/nginx/(http\.d/\*\.conf);(\}?)$'
+  '^([[:space:]]*)include /etc/nginx/(conf\.d/\*\.conf|conf\.d/\*);(\}?)$'
+)
 
 die() { printf '[patch-image] ERROR: %s\n' "$*" >&2; exit 1; }
 
@@ -109,8 +114,20 @@ patch_nginx_conf() {
 # the build instead of the first boot. The certificate path of the HTTPS
 # server is pointed at a throwaway certificate, since /config/ssl is created
 # at runtime.
+site_include() {
+  local pattern
+  for pattern in "${SITE_INCLUDES[@]}"; do
+    if grep -q -E -- "$pattern" "$NGINX_CONF"; then
+      printf '%s\n' "$pattern"
+      return 0
+    fi
+  done
+  die "${NGINX_CONF}: no site include line found. The base image changed; review this script."
+}
+
 test_rendered_config() {
-  local dir test_conf
+  local dir test_conf SITE_INCLUDE
+  SITE_INCLUDE="$(site_include)"
   dir="$(mktemp -d)"
   require_count "$NGINX_CONF" "$SITE_INCLUDE" 1
   sed -e 's/CWS/8082/g' -e 's|SUBFOLDER|/|g' -e "s|/config/ssl/cert|${dir}/cert|g" \
