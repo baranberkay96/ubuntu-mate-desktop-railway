@@ -21,7 +21,7 @@ Listing: **Ubuntu MATE 26.04 Desktop in Your Browser**, "Ubuntu MATE 26.04 deskt
 
 | Service | Idle RAM | Typical | CPU |
 |---|---|---|---|
-| Desktop | ~0.6 GB (estimate) | 1–2 GB with Chromium | 0.1 vCPU idle, 1–2 vCPU while the screen changes |
+| Desktop | about 0.31 GB of RAM idle and 0.43 GB with a browser session streaming, tested under a 1 GB limit (Trial) with packages reinstalled | 1–2 GB with Chromium | 0.1 vCPU idle, 1–2 vCPU while the screen changes |
 
 About $6–10/month idle at Railway prices plus the volume ($0.15/GB-month); more while the desktop is in use. Minimum plan: Trial (1 GB); Free (0.5 GB) is too small.
 

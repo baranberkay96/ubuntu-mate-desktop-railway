@@ -33,7 +33,7 @@ A browser desktop needs a display server, a desktop session, a streaming server,
 |---|---|---|---|
 | Desktop | MATE on X11 desktop session, D-Bus, audio, Selkies (loopback only), nginx (login, `/healthz`), all supervised by s6 | `/config` | 3000 (public HTTPS domain) |
 
-**Plan:** Expected below 0.6 GB of RAM with one browser session connected and no apps open (MATE is lighter than the KDE desktops, measured at 0.57-0.67 GB), so it should fit Trial's 1 GB; Free's 0.5 GB is too small. Use Hobby and 2 GB or more for Chromium and larger apps.
+**Plan:** Measured on Railway: about 0.31 GB of RAM idle and 0.43 GB with a browser session streaming, tested under a 1 GB limit (Trial) with packages reinstalled. Free's 0.5 GB is tight: it may hold an idle session but leaves no room for apps. Use Hobby and 2 GB or more for Chromium and larger apps.
 
 **First login**
 
