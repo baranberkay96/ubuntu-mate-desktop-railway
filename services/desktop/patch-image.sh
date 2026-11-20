@@ -134,6 +134,10 @@ test_rendered_config() {
 main() {
   [[ -f "$SITE_TEMPLATE" ]] || die "missing ${SITE_TEMPLATE}"
   [[ -f "$NGINX_CONF" ]] || die "missing ${NGINX_CONF}"
+  # Fedora packages catatonit under /usr/libexec; the ENTRYPOINT uses /usr/bin.
+  if [[ ! -x /usr/bin/catatonit && -x /usr/libexec/catatonit/catatonit ]]; then
+    ln -s /usr/libexec/catatonit/catatonit /usr/bin/catatonit
+  fi
   [[ -x /usr/bin/catatonit ]] || die "missing /usr/bin/catatonit"
   [[ -x /command/s6-svscan && -x /command/s6-rc ]] || die "missing s6 tools in /command"
   check_snippets
