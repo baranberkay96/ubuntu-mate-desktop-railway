@@ -17,7 +17,7 @@
     "repo": "linuxserver/docker-webtop",
     "branch": "ubuntu-mate",
     "version": "ubuntu-mate-c8975261-ls295",
-    "image": "lscr.io/linuxserver/webtop:ubuntu-mate-c8975261-ls295@sha256:aaa70851e0b69dad95ee84b381bc1a77e62806ca35df82121ac739427ac645f6",
+    "image": "ghcr.io/linuxserver/webtop:ubuntu-mate-c8975261-ls295@sha256:aaa70851e0b69dad95ee84b381bc1a77e62806ca35df82121ac739427ac645f6",
     "base": "baseimage-selkies:ubunturesolute",
     "checked": "2026-11-20"
   },

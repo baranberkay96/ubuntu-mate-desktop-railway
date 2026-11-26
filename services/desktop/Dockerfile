@@ -7,7 +7,9 @@
 # baseimage-selkies:ubunturesolute). The digest is the multi-arch index, identical
 # on lscr.io, ghcr.io and Docker Hub. To upgrade, replace tag and digest
 # together with a newer "ubuntu-mate-<hash>-ls<n>" release and redeploy.
-FROM lscr.io/linuxserver/webtop:ubuntu-mate-c8975261-ls295@sha256:aaa70851e0b69dad95ee84b381bc1a77e62806ca35df82121ac739427ac645f6
+# Pulled from ghcr.io directly: lscr.io only redirects there, and a failed
+# redirect fails the whole build at this step.
+FROM ghcr.io/linuxserver/webtop:ubuntu-mate-c8975261-ls295@sha256:aaa70851e0b69dad95ee84b381bc1a77e62806ca35df82121ac739427ac645f6
 
 # Image defaults for Railway. Variables set on the Railway service win.
 #  - PUID/PGID 1000: fixed owner of the /config volume. Do not change them

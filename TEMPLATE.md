@@ -5,7 +5,7 @@ Listing: **Ubuntu MATE 26.04 Desktop in Your Browser**, "Ubuntu MATE 26.04 deskt
 ## Service: Desktop
 
 - Source: repo `baranberkay96/ubuntu-mate-desktop-railway`, root directory `/services/desktop` (Dockerfile).
-- Base: `lscr.io/linuxserver/webtop:ubuntu-mate-c8975261-ls295@sha256:aaa70851e0b69dad95ee84b381bc1a77e62806ca35df82121ac739427ac645f6` (built 2026-11-17, 1.47 GB compressed).
+- Base: `ghcr.io/linuxserver/webtop:ubuntu-mate-c8975261-ls295@sha256:aaa70851e0b69dad95ee84b381bc1a77e62806ca35df82121ac739427ac645f6` (built 2026-11-17, 1.47 GB compressed).
 - Public domain, target port 3000, healthcheck `/healthz` (600 s), restart ON_FAILURE ×10, 1 replica.
 - Volume `/config`.
 - Variables: `PASSWORD` = `${{secret(32)}}`, `CUSTOM_USER` = `ubuntu`, `PORT` = `3000`, `TZ` = `Etc/UTC`, `TITLE` = `Ubuntu MATE 26.04 Desktop`, `APT_PACKAGES` = `empty`, `RAILWAY_DEPLOYMENT_DRAINING_SECONDS` = `15`.

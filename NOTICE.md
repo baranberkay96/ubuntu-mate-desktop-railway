@@ -2,7 +2,7 @@
 
 ## Base image and its components
 
-The service is built `FROM lscr.io/linuxserver/webtop:ubuntu-mate-c8975261-ls295@sha256:aaa70851e0b69dad95ee84b381bc1a77e62806ca35df82121ac739427ac645f6` (built 2026-11-17; multi-arch index digest checked on Docker Hub 2026-11-20, 1.47 GB compressed for amd64, below the 4 GB Trial/Free image limit). The image is used as published by linuxserver.io. This repository contains no copy of its source files.
+The service is built `FROM ghcr.io/linuxserver/webtop:ubuntu-mate-c8975261-ls295@sha256:aaa70851e0b69dad95ee84b381bc1a77e62806ca35df82121ac739427ac645f6` (built 2026-11-17; multi-arch index digest checked on Docker Hub 2026-11-20, 1.47 GB compressed for amd64, below the 4 GB Trial/Free image limit). The image is used as published by linuxserver.io. This repository contains no copy of its source files.
 
 | Component | Source | License | How it is used |
 |---|---|---|---|
